@@ -1,25 +1,25 @@
-const core = require("@actions/core")
-	, github = require("@actions/github")
-	, fs = require("fs-extra");
+const core = require("@actions/core");
+const github = require("@actions/github");
+const fs = require("fs-extra");
+
+const REGEX_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/gm;
 
 // most @actions toolkit packages have async methods
-async function run()
-{
-	try
-	{
+async function run() {
+	try {
 		const payload = github.context.payload;
 		let tag = payload.release.tag_name;
 
-		if (tag.startsWith("v"))
-			tag = tag.replace("v", "");
-
-		if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/gm.test(tag))
-		{
-			throw new Error("Release Tag does not match semantic versioning.");
+		if (tag.startsWith("v")) {
+			tag = tag.replace("v", "")
 		}
 
-		const pkg = await fs.readJson("./package.json")
-			, originalVersion = pkg.version;
+		if (!REGEX_PATTERN.test(tag)) {
+			throw new Error("Release Tag does not match semantic versioning of MAJOR.MINOR.PATCH.");
+		}
+
+		const pkg = await fs.readJson("./package.json");
+		const originalVersion = pkg.version;
 
 		pkg.version = tag;
 		await fs.outputJson("./package.json", pkg, {
@@ -27,10 +27,7 @@ async function run()
 		});
 
 		core.info(`Modified version number in package.json from ${originalVersion.replace("v", "")} to ${pkg.version}`);
-	}
-
-	catch (error)
-	{
+	} catch (error) {
 		core.setFailed(error.message);
 	}
 }
