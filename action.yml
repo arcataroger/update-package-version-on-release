@@ -1,5 +1,5 @@
 name: "Update package version on release with semver"
-description: "This action updates package.json version to the same version as the latest release tag using semantic versioning (MAJOR.MINOR.PATCH)."
+description: "This action syncs package.json version with latest release tag using semantic versioning (MAJOR.MINOR.PATCH)."
 author: "pkgacek"
 
 branding:
