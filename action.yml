@@ -1,6 +1,6 @@
-name: "Update package.json version on release"
-description: "Update your package.json version automatically when a new release is created, released, or published, using the release tag."
-author: "medallyon"
+name: "Update package version on release with semver"
+description: "This action updates package.json version to the same version as the latest release tag using semantic versioning (MAJOR.MINOR.PATCH)."
+author: "pkgacek"
 
 branding:
   icon: "arrow-up"
