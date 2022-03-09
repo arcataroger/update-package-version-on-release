@@ -1,7 +1,7 @@
 {
-  "name": "update-package-version-on-release",
+  "name": "update-package-version-on-release-with-semver",
   "version": "1.0.0",
-  "description": "Update your package.json version automatically when a new release is created, released, or published, using the release tag.",
+  "description": "This action updates package.json version to the same version as the latest release tag using semantic versioning (MAJOR.MINOR.PATCH).",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
