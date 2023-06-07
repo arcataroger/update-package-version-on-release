@@ -8,6 +8,7 @@ const REGEX_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\
 async function run() {
 	try {
 		const payload = github.context.payload;
+		const workingDirectory = core.getInput('working_directory) ?? '.';
 		let tag = payload.release.tag_name;
 
 		if (tag.startsWith("v")) {
@@ -18,11 +19,11 @@ async function run() {
 			throw new Error("Release Tag does not match semantic versioning of MAJOR.MINOR.PATCH.");
 		}
 
-		const pkg = await fs.readJson("./package.json");
+		const pkg = await fs.readJson(`${workingDirectory}/package.json`);
 		const originalVersion = pkg.version;
 
 		pkg.version = tag;
-		await fs.outputJson("./package.json", pkg, {
+		await fs.outputJson(`${workingDirectory}/package.json`, pkg, {
 			spaces: 2
 		});
 
