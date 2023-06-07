@@ -8,7 +8,7 @@ const REGEX_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\
 async function run() {
 	try {
 		const payload = github.context.payload;
-		const workingDirectory = '.dist'
+		const workingDirectory = 'dist';
 		let tag = payload.release.tag_name;
 
 		if (tag.startsWith("v")) {
