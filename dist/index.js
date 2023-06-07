@@ -559,11 +559,11 @@ async function run() {
 			throw new Error("Release Tag does not match semantic versioning of MAJOR.MINOR.PATCH.");
 		}
 
-		const pkg = await fs.readJson("./package.json");
+		const pkg = await fs.readJson(`./dist/package.json`);
 		const originalVersion = pkg.version;
 
 		pkg.version = tag;
-		await fs.outputJson("./package.json", pkg, {
+		await fs.outputJson(`$./dist/package.json`, pkg, {
 			spaces: 2
 		});
 
